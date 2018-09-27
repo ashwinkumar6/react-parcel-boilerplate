@@ -1,8 +1,9 @@
 import { combineReducers } from 'redux';
 import ui from './ui';
+//import {filterLogReducer} from "./ui"
 
-// Add your new reducer here
 const reducers = {
+  //filterLogReducer
   ui
 };
 

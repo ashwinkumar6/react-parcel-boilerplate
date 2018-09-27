@@ -11,17 +11,20 @@
     "start": "parcel public/index.html"
   },
   "dependencies": {
+    "antd": "3.9.3",
     "babel-polyfill": "6.26.0",
     "lodash": "4.17.10",
     "react": "16.4.0",
     "react-dom": "16.4.0",
     "react-redux": "5.0.7",
+    "react-router-dom": "4.3.1",
     "redux": "4.0.0",
     "redux-thunk": "2.3.0",
     "reselect": "3.0.1"
   },
   "devDependencies": {
     "autoprefixer": "8.6.2",
+    "babel-plugin-transform-class-properties": "6.24.1",
     "babel-plugin-transform-object-rest-spread": "6.26.0",
     "babel-preset-env": "1.7.0",
     "babel-preset-react": "6.24.1",
