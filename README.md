@@ -28,5 +28,3 @@ Lets start!
 
     yarn start or npm run start
 
-You can always contact me via sbayd06@gmail.com
-

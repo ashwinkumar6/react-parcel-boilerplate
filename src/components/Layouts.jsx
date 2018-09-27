@@ -1,14 +1,14 @@
 import React, { Component } from "react";
-import { Layout, Menu, Icon, DatePicker } from "antd";
+import { Layout, Menu, Icon, DatePicker, Card } from "antd";
 import { Link, Route } from "react-router-dom";
 import moment from "moment";
 
 import logo from "../assets/logo.png";
-import Dashboard from "./Pages/Dashboard";
-import NatType from "./Pages/NatType";
+import Dashboard from "../Pages/Dashboard";
+import NatType from "../Pages/NatType";
 import "./Layouts.css";
-import ConnectionAttempts from "./Pages/ConnectionAttempts";
-import Protocol from "./Pages/Protocol";
+import ConnectionAttempts from "../Pages/ConnectionAttempts";
+import Protocol from "../Pages/Protocol";
 
 const { Header, Sider, Content } = Layout;
 const { RangePicker } = DatePicker;
@@ -36,7 +36,7 @@ class Layouts extends Component {
           width={256}
         >
           <div className="logo">
-            <img src={"add logo"} alt="logo" />
+            <img src={"add logo here"} alt="logo" />
             <h1>CRUST TESTNET</h1>
           </div>
           <Menu theme="dark" mode="inline" defaultSelectedKeys={["1"]}>
@@ -93,12 +93,6 @@ class Layouts extends Component {
             </span>
           </Header>
           <Content
-            style={{
-              margin: "24px 16px",
-              padding: 24,
-              background: "#fff",
-              minHeight: 280
-            }}
           >
             <Route path="/" exact component={Dashboard} />
             <Route path="/nat" component={NatType} />
