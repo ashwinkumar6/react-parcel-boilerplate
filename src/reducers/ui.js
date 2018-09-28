@@ -1,36 +1,6 @@
 // SIMPLE REDUCER
 import { UI_ACTIONS } from '../constants/action_types';
-
-
-const data = {
-  "logs":{"id":"20812",
-  "user":{
-    "requester":{
-      "ip":"127.0.0.1",
-      "nat_type":"EIM",
-     "os":"linux"
-  },
-  "responder":{
-     "ip":"127.0.0.1",
-     "nat_type":"EIM",
-     "os":"linux"
-  }
-  },
-  "connection_types":{
-   "direct":"true",
-     "utp_hp":{
-     "Succeeded":{
-        "time_spent":{
-           "secs":0,
-           "nanos":0
-        }
-     }
-  },
-    "tcp_hp": "Failed"
-  }
-}
-}
-
+import data from "../assets/data"
 
 
 export default (state={}, action) => {
@@ -45,42 +15,46 @@ export default (state={}, action) => {
   // }
 };
 
-
-function filterLogs(state={},days){
+// used for sorting may be shifted to utils
+function filterLogs(rawData,days){
   var endDate = new Date(Date.now());
   var startDate = new Date();
   startDate.setDate(startDate.getDate()-days);
-  var resultProductData = state.filtered_logs.filter(function (product) {
-    var date = new Date(product.ProductHits.toString());
+  var resultProductData = rawData.filter((product)=>{
+    var date = new Date(product.date.toString());
     return (date >= startDate && date <= endDate);
   });
   return resultProductData;
   }
   
-  export const filterLogReducer = (state={}, action)=>{
-    switch (action.type){
-      case "filterMonth":{
-        var filteredData = filterLogs(state,30);
-        state = {...state, filtered_logs:filteredData }  
-        break;
-      }
-
-      case "filterWeek":{
-        var filteredData = filterLogs(state,7);
-        state = {...state, filtered_logs:filteredData }  
-        break;
-      }
-
-      case "filterDay":{
-        var filteredData = filterLogs(state,1);
-        state = {...state, filtered_logs:filteredData }  
-        break;  
-      }
-
-      case "filterHour":{
-      var filteredData = filterLogs(state,1); //change logic
-      state = {...state, filtered_logs:filteredData }  
-      break;
+export const filterLogReducer = (state={}, action)=>{
+  var filteredData;
+  switch (action.type){
+    case "filterMonth":{
+      filteredData = filterLogs(state.logs,30);
+      return state = {...state, filtered_logs:filteredData }  
     }
+
+    case "filterWeek":{
+      filteredData = filterLogs(state.logs,7);
+      return state = {...state, filtered_logs:filteredData }  
+    }
+
+    case "filterDay":{
+      filteredData = filterLogs(state.logs,1);
+      return state = {...state, filtered_logs:filteredData }   
+    }
+
+    case "filterHour":{
+    filteredData = filterLogs(state.logs,action.payload); //check logic for 1h
+    return state = {...state, filtered_logs:filteredData }  //update parameter
   }
+  //setting initial state via reducer
+  default: {return state=data}
+}
 } 
+
+// to call dispatcher 
+//dispatch({type:"filterMonth"});
+//dispatch({type:"filterWeek"});
+//dispatch({type:"filterDay"});
