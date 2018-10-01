@@ -2,66 +2,98 @@
 import { UI_ACTIONS } from '../constants/action_types';
 import data from "../assets/data"
 
-export default (state={}, action) => {
-  console.log("state in reducer",state);
-  // switch (action.type) {
-  // case UI_ACTIONS.UPDATE_NAME:
-  //   return { ...state, userName: action.data };
-  // case UI_ACTIONS.INCREMENT_COUNT:
-  //   return { ...state, count: action.data };
-  // default:
-  return state;
-  // }
-};
-
 // used for sorting may be shifted to utils
-function CalcDate(rawData,type,duration){
+function CalcDate(actionType,rawData,type,duration){
   var endDate = new Date();
   var startDate = new Date();
   type==="day" ? startDate.setDate(endDate.getDate()-duration) : startDate.setHours(endDate.getHours()-duration);
-  return filterLogs(rawData,startDate,endDate)
+  return filterLogs(actionType,rawData,startDate,endDate)
   }
-function filterLogs(rawData,startDate,endDate){
+function filterLogs(actionType,rawData,startDate,endDate){
 var resultProductData = rawData.filter((product)=>{
   var date = new Date(product.createdAt.toString());
   return (date >= startDate && date <= endDate);
 });
-return resultProductData;
+return{
+  "recent":actionType,
+  "data":resultProductData
+}
 }  
-  
-export const filterLogReducer = (state={}, action)=>{
+
+function resultLogs(actionType,rawData,type){
+var resultProductData = rawData.filter((product)=>{
+  var direct = product.is_direct_successful.toString();
+  var utp = product.utp_hole_punch_result.Succeeded;
+  var tcp = product.tcp_hole_punch_result.Succeeded;
+  return type==="resultFailed"? ( (direct==="false") && !(utp)&& !(tcp) ) : ( (direct==="true") || utp || tcp ) ; 
+});
+
+return{
+  "recent":actionType,
+  "data":resultProductData
+}
+}  
+
+
+
+export const filterLogReducer = (state=[], action)=>{
   var filteredData;
   switch (action.type){
     case "filterMonth":{
-      // console.log("in switch",state.logs);
-      filteredData = CalcDate(state.logs,"day",30);
-      return state = {...state, filtered_logs:filteredData }  
+      filteredData = CalcDate("filterMonth",action.data,"day",30);
+      //return state = {...state, object1 }  
+      return Object.assign([],filteredData);
     }
 
     case "filterWeek":{
-      filteredData = CalcDate(state.logs,"day",7);
-      return state = {...state, filtered_logs:filteredData }  
-    }
+      filteredData = CalcDate("filterWeek",action.data,"day",7);      
+      return Object.assign([],filteredData);
+    } 
 
     case "filterDay":{
-      filteredData = CalcDate(state.logs,"day",2);
-      return state = {...state, filtered_logs:filteredData }   
+      filteredData = CalcDate("filterDay",action.data,"day",1);
+      return Object.assign([],filteredData);
     }
 
     case "filterHour":{
-    filteredData = CalcDate(state.logs,"hour",1); 
-    return state = {...state, filtered_logs:filteredData }  
+    filteredData = CalcDate("filterHour",action.data,"hour",1); 
+    return Object.assign([],filteredData);
   }
   case "filterCustom":{
-    filteredData = filterLogs(state.logs,new Date(action.startDate),new Date(action.endDate)); 
-    return state = {...state, filtered_logs:filteredData }  
+    filteredData = filterLogs("filterCustom",action.data,new Date(action.startDate),new Date(action.endDate)); 
+    return Object.assign([],filteredData);
   }
-  default: {return state=data}
+  default: return state=data.logs;
 }
 } 
-// to call dispatcher 
-// dispatch({type:"filterMonth"});
-// dispatch({type:"filterWeek"});
-// dispatch({type:"filterDay"});
-// dispatch({type:"filterHour"});
-// dispatch({type:"filterCustom",startDate:"2018-08-28",endDate:"2018-09-28"});
+
+export const filterResultReducer = (state=[], action)=>{
+var resultData;
+switch (action.type){
+  case "resultSuccessful":{
+    resultData = resultLogs("resultSuccessful",action.data,"resultSuccessful");
+    return Object.assign([],resultData);
+    //return state = {...state, result_logs:resultData }  
+  }
+
+  case "resultFailed":{
+    resultData = resultLogs("resultFailed",action.data,"resultFailed");
+    return Object.assign([],resultData);
+  }
+
+  case "resultAll":{
+    var addRecent= {
+      "recent":"resultAll",
+      "data":action.data
+    }    
+    return Object.assign([],addRecent );
+  }
+
+  default: return state=data.logs;
+}
+} 
+
+export const serverLogReducer = (state={}, action)=>{
+  return state=data.logs; 
+} 
+  

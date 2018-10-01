@@ -7,7 +7,7 @@ import thunk from 'redux-thunk';
 import rootReducer from './reducers';
 import App from './App';
 import { BrowserRouter, Route} from 'react-router-dom';
-
+// import data from "./assets/data"
 
 function configureStore(initialState) {
   return createStore(
@@ -16,36 +16,7 @@ function configureStore(initialState) {
   );
 }
 
-const data = {
-  "logs":{"id":"20812",
-  "user":{
-    "requester":{
-      "ip":"127.0.0.1",
-      "nat_type":"EIM",
-     "os":"linux"
-  },
-  "responder":{
-     "ip":"127.0.0.1",
-     "nat_type":"EIM",
-     "os":"linux"
-  }
-  },
-  "connection_types":{
-   "direct":"true",
-     "utp_hp":{
-     "Succeeded":{
-        "time_spent":{
-           "secs":0,
-           "nanos":0
-        }
-     }
-  },
-    "tcp_hp": "Failed"
-  }
-}
-}
 const store = configureStore({});
-
 const reactRoot = document.getElementById('react-root');
 
 ReactDOM.render( 

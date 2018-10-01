@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { Row, Col, Card } from "antd";
-import { Bar } from "ant-design-pro/lib/Charts";
 
 import Tables from "../components/Tables";
 import Charts from "../components/Charts";
@@ -14,14 +13,13 @@ const topColResponsiveProps = {
   xl: 8
 };
 
-
 class Dashboard extends Component {
   render() {
     return (
       <div className="gutter-example">
         <Row gutter={24} style={{ margin: "24px 8px" }}>
           <Col className="gutter-row" span={24}>
-          <Card
+            <Card
               title="Global Network Activity"
               style={{
                 background: "#fff",
@@ -29,7 +27,7 @@ class Dashboard extends Component {
                 minHeight: 500
               }}
             >
-            <Charts />
+              <Charts />
             </Card>
           </Col>
         </Row>

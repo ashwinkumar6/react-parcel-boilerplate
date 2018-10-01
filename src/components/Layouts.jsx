@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Layout, Menu, Icon, DatePicker, Card } from "antd";
+import { Layout, Menu, Icon, DatePicker } from "antd";
 import { Link, Route } from "react-router-dom";
 import moment from "moment";
 
@@ -13,7 +13,8 @@ import Protocol from "../Pages/Protocol";
 const { Header, Sider, Content } = Layout;
 const { RangePicker } = DatePicker;
 
-const dateFormat = "DD/MM/YYYY";
+const dateFormat = "YYYY/MM/DD";
+
 
 class Layouts extends Component {
   state = {
@@ -27,6 +28,7 @@ class Layouts extends Component {
   };
 
   render() {
+    console.log("props passes to Layout",this.props);    
     return (
       <Layout style={{ minHeight: 900 }}>
         <Sider
@@ -36,7 +38,7 @@ class Layouts extends Component {
           width={256}
         >
           <div className="logo">
-            <img src={"add logo here"} alt="logo" />
+            <img src={"add image here"} alt="logo" />
             <h1>CRUST TESTNET</h1>
           </div>
           <Menu theme="dark" mode="inline" defaultSelectedKeys={["1"]}>
@@ -97,7 +99,7 @@ class Layouts extends Component {
             <Route path="/" exact component={Dashboard} />
             <Route path="/nat" component={NatType} />
             <Route path="/protocol" component={Protocol} />
-            <Route path="/connect" component={ConnectionAttempts} />
+            <Route path="/connect" render={()=><ConnectionAttempts data={this.props.data} filter={this.props.filter}/>} />
           </Content>
         </Layout>
       </Layout>

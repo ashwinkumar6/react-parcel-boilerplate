@@ -8,11 +8,18 @@ import Layouts from './components/Layouts';
 //import Tables from './components/Tables';
 
 class App extends React.Component {
+  // constructor(props){
+  //   super(props);
+  //   this.props.uiActions.filterMonth;
+  //   console.log("Initial statezz",this.props.ui);
+  // }
   render() {
-    console.log("Initial state",this.props);
+    //console.log("Initial statezz",this.props.ui);
+    //console.log("after action",this.props.ui);
+    console.log("Initial statezz",this.props.ui);
     return (
-      <div className="App">
-        <Layouts/>
+      <div className="App"> 
+      <Layouts data={this.props.ui} filter={this.props.uiActions}/>
       </div>
     );
   }
@@ -20,7 +27,7 @@ class App extends React.Component {
 
 function mapDispatchToProps(dispatch) {
   return {
-    uiActions: bindActionCreators(UI_ACTIONS, dispatch)
+    uiActions: bindActionCreators(UI_ACTIONS,dispatch)
   };
 }
 
